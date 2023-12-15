@@ -70,6 +70,21 @@ section.work-detailed h4 {
     color: white;
 }
 
+.update{
+    display: flex;
+    justify-content: space-between;
+}
+
+.update button{
+    width: 200px;
+    height: 50px;
+    background: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 500;
+    border: none;
+    color: white;
+}
+
 .container {
     width: 860px;
     max-width: 100%;
@@ -158,7 +173,7 @@ section.recent.blogs .recent-container .recent-card-container {
     padding: 30px 0;
     max-width: fit-content;
     min-height: auto;
-    height: 200px;
+    /* height: 200px; */
 
     border-bottom: 1px solid var(--border-grey);
 }

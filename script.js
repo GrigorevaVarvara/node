@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
-const urlparser = bodyParser.urlencoded({extended: false});
+const urlencoded = bodyParser.urlencoded({extended:false})
 const Sequelize = require('sequelize');
 const app = express();
 app.use(express.static('public'))
@@ -35,7 +35,7 @@ const Post = sequelize.define('posts', {
         allowNull: false,
     },
     name: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
     },
     descript: {
@@ -63,6 +63,55 @@ app.get('/blogs',  function(req, res) {
     })
     
 });
+
+app.post('/blogs', urlencoded, function(req, res) {
+    const name = req.body.name;
+    const text = req.body.text;
+    const date = req.body.date;
+
+  
+    Post.create({name: name, descript: text, date_post:date}).then(() => {
+        res.redirect('/blogs');  
+    })
+});
+
+app.get('/delete/:id', function(req, res){
+    const postsId = req.params.id;
+    Post.destroy({
+        where: {
+            id: postsId
+        }
+    }).then(() => {
+        res.redirect('/blogs');
+    })
+});
+
+
+app.post('/update', urlencoded, function(req, res) {
+    const name = req.body.name;
+    const text = req.body.text;
+    const date = req.body.date;
+
+    Post.update({name: name, descript: text, date_post:date}, {
+        where: {
+            id: id
+        }
+    }).then(() => {
+        res.redirect('/blogs');
+    })
+});
+
+app.get('/update/:id', function(req, res) {
+    Post.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((date) => {
+        res.render('update.hbs', {posts: date})
+    })
+});
+
+
 
 
 app.get('/works', function(req, res) {

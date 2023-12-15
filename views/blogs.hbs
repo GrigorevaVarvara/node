@@ -13,13 +13,13 @@
             <header>
                 <ul class="menu">
                     <li>
-                        <a href="blogs.html" class="active">Blog</a>
+                        <a href="/blogs" class="active">Blog</a>
                     </li>
                     <li>
-                        <a href="works.html">Works</a>
+                        <a href="/works">Works</a>
                     </li>
                     <li>
-                        <a href="index.html">Contacts</a>
+                        <a href="/">Contacts</a>
                     </li>
                 </ul>
                 <button class="burger" onclick="toggleMenu()">
@@ -45,14 +45,27 @@
                             <p>
                                 {{this.descript}}
                             </p>
+                            <div class="update">
+                                <button href="update/{{this.id}}">update</button>   
+                                <button href="delete/{{this.id}}">delete</button>
+                            </div>
+                            
                         </div>
-
+                    
                        
                     </div>
                     {{/each}}
                 </div>
             </section>
            
+            <form action="/blogs" method="post">
+                <input type="hidden" name="id" value="{{posts.id}}">
+                <input type="text" name="name" placeholder="name" value="{{posts.name}}">
+                <input type="date" name="date" value="{{posts.date}}">
+                <input type="text" name="text" placeholder="text" value="{{posts.text}}">
+                <button type="submit">Save</button>
+            </form>
+    </form>
         </div>
 
         <footer>
