@@ -3,8 +3,11 @@ const bodyParser = require('body-parser')
 const urlencoded = bodyParser.urlencoded({extended:false})
 const Sequelize = require('sequelize');
 const app = express();
+const TelegramBot = require('node-telegram-bot-api');
 app.use(express.static('public'))
 
+const token = '6570460337:AAFler9l5tKFcagv0pC18MivIFfaSXircoo';
+const bot = new TelegramBot(token, {polling: true});
 
 app.set("view engine", "hbs")
 const sequelize = new Sequelize("blog", "root", "", {
@@ -71,6 +74,7 @@ app.post('/blogs', urlencoded, function(req, res) {
 
   
     Post.create({name: name, descript: text, date_post:date}).then(() => {
+        bot.sendMessage(672863020,"Создано: "+name),
         res.redirect('/blogs');  
     })
 });
@@ -82,12 +86,14 @@ app.get('/delete/:id', function(req, res){
             id: postsId
         }
     }).then(() => {
+        bot.sendMessage(672863020,"Удалено: "+postsId),
         res.redirect('/blogs');
     })
 });
 
 
 app.post('/update', urlencoded, function(req, res) {
+    let id = req.body.id;
     const name = req.body.name;
     const text = req.body.text;
     const date = req.body.date;
@@ -97,7 +103,10 @@ app.post('/update', urlencoded, function(req, res) {
             id: id
         }
     }).then(() => {
+        bot.sendMessage(672863020,"Изменено: "+name),
         res.redirect('/blogs');
+
+        
     })
 });
 
@@ -131,3 +140,9 @@ sequelize.sync().then(() => {
 })
 
 
+
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+
+    bot.sendMessage(chatId, msg.text);
+});
